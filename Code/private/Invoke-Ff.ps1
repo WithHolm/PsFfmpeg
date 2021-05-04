@@ -1,4 +1,4 @@
-function Invoke-Ff {
+function Invoke-FF {
     [CmdletBinding()]
     param (
         [ValidateSet("FFmpeg")] #,"FFplay","FFprobe"

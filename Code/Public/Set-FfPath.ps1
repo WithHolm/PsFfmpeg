@@ -17,7 +17,8 @@ function Set-FfPath {
         else
         {
             Write-Verbose "Found ffmpeg.exe at path $item"
-            $global:_ffmpeg = $item.FullName
+            $env:path+=";$($item.FullName)"
+            # $global:_ffmpeg = $item.FullName
         }
     }
     

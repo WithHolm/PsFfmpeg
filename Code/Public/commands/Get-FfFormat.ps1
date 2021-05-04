@@ -2,7 +2,10 @@ class FFFormat{
     [parameter(HelpMessage = "List of extensions supported by this format")]
     [String[]]$Extension = @()
     
-    [parameter(HelpMessage = "Multiplexer/DeMultiplexer (Many to one/One to many) defines if the format supports conversion from many possible data points to one (or reverse). IE a file with video, audio and subtitles that supports demuxing could be split to a video file, audio file and subtitles file. The reverse would be muxing.")]
+    [parameter(HelpMessage = "
+    Multiplexer/DeMultiplexer (Many to one/One to many).
+    Defines if the format supports conversion from many possible data points to one (or reverse). 
+    IE a file with video, audio and subtitles that supports demuxing could be split to a video file, audio file and subtitles file. The reverse would be muxing.")]
     [string[]]$Muxing = @()
 
     [string]$Description = ""
