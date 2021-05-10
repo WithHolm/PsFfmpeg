@@ -1,8 +1,11 @@
 # With.FFMPEG
 Handler for ffmpeg
 
-## Usage
+> **⚠ WARNING: About the handling of ffmpeg output.**  
+>     I`m currently working on handling ffmpeg correctly as the output from the actual application is treated as errors when handled with powershell context.   
+> This will be fixed shortly.. in the meantime I dont have any output from the application, except actual critical warnings
 
+## Usage
 This module relies on ffmpeg.exe and needs to have the parent folder registered in `$env:path` to work properly, 
 
 ### You dont have FFMPEG?
@@ -29,6 +32,13 @@ Decieds in what context you set the system variable. defaults to `user`
 
 ### Convert-FFItem
 Converts the selected file to the format of your choosing
+
+``` Powershell
+-OutFormat #Defines format
+-OutFolder #Defines Output folder. it will default to whatever folder input is located
+-Force #Replace file if exists. If not enabled, the command will write warning if file already exist and return the existing file, for the sake of the pipeline. 
+-Arguments #If you have any extra arguments, This is also for futureproofing when writing specific commands for converting and splitting video and audio
+```
 
 **Example:**
 ``` powershell

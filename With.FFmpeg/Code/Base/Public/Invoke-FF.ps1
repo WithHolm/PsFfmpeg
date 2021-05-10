@@ -63,32 +63,32 @@ function Invoke-FF {
         $OkLog = join-path $Logpath "Info-$SessionName"
         $OkLogQ = "3>&1 4>&1 5>&1 6>&1 >>'$oklog'"
 
-        $sb = [scriptblock]::Create("& $((get-command $app).Source) $($argstring -join " ") -v fatal") #-loglevel error 2>$ErrLogPath
+        $sb = [scriptblock]::Create("& $((get-command $app).Source) $($argstring -join " ") -v fatal $errLogQ") #-loglevel error 2>$ErrLogPath
         Write-Verbose "Arguments = $argstring"
         Write-Verbose "Command:$sb"
         $Job = Start-Job -Name $SessionName -ScriptBlock $sb
 
     
-        # $Logskip = 0
+        $Logskip = 0
         while(($Job|Get-Job).State -eq "Running")
         {
-            # if(test-path $ErrLogPath)
-            # {
-            #     $errlog = @(gc $ErrLogPath|select -Skip $Logskip)
-            #     if($errlog.count)
-            #     {
-            #         $Logskip = $logskip + $errlog.Count
-            #     }
+            if(test-path $ErrLog)
+            {
+                $errlogOut = @(gc $ErrLog|select -Skip $Logskip)
+                if($errlog.count)
+                {
+                    $Logskip += $errlogOut.Count
+                }
 
-            #     # if($IgnoreErrors)
-            #     # {
-            #     #     $errlog|%{
-            #     #         Write-Error "FFMPEG Error> $_"
-            #     #     }
-            #     # }
+                # if($IgnoreErrors)
+                # {
+                #     $errlog|%{
+                #         Write-Error "FFMPEG Error> $_"
+                #     }
+                # }
                 
-            #     # $errlog
-            # }
+                $errlogOut
+            }
         }
 
         $out = $job|Receive-Job -wait
