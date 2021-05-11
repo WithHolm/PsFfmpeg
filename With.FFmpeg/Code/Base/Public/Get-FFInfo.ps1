@@ -10,8 +10,11 @@ function Get-FFInfo {
     }
     
     process {
-        $arguments = 
-        Invoke-FF -App FFprobe -arguments @("-print_format json -show_format -show_streams")
+        $InputItem = $InputItem|Get-FfItem
+
+        # if()
+        # $arguments = 
+        Invoke-FF -App FFprobe -arguments @($InputItem.tostring(),"-print_format json -show_format -show_streams")
     }
     
     end {

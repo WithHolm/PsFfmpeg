@@ -53,20 +53,8 @@ function Convert-FFitem {
     }
     process {
         $OutFormat = $PSBoundParameters.OutFormat
-        if ($InputItem -is [string]) {
-            $InputItem = get-item $InputItem
-        }
-
-        if ($InputItem -is [System.IO.FileInfo]) {
-            $list.Add($InputItem)
-        }
-        elseif ($InputItem -is [System.IO.DirectoryInfo]) {
-            throw "Cannot handle directories yet"
-        }
-        else {
-            throw "Unkown input: $($InputItem.gettype())"
-        }
-        
+        $list.Add(($InputItem|Get-FfItem))
+        # $InputItem = $InputItem|Get-FfItem
     }
     
     end {
@@ -96,7 +84,7 @@ function Convert-FFitem {
             }
 
             # $Item = $InputItem
-            $arguments += @{i = "'$($Item.FullName)'" }
+            $arguments += @("-i",$item.fullname) #@{i = "'$($Item.FullName)'" }
  
             if ($OutputFolder) {
                 if ( -not $OutputFolder.Exists) {
@@ -119,7 +107,7 @@ function Convert-FFitem {
                 return $OutputItem
             }
  
-            $arguments += "'$($OutputItem.FullName)'"
+            $arguments += "$($OutputItem.FullName)"
  
             if ($OutputItem.Exists -and (Test-FileInUse $OutputItem)) {
                 Write-Error "OutputFile '$OutputItem' is in use by another process"
@@ -129,6 +117,7 @@ function Convert-FFitem {
             if ($OutputItem.FullName -eq $input.fullname) {
                 Throw "Input and output cannot be the same file"
             }
+            Write-Verbose ($arguments|ConvertTo-Json)
             Invoke-Ff -App FFmpeg -arguments $arguments
  
             Write-Output $OutputItem

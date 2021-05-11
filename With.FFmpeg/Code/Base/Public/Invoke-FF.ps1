@@ -38,10 +38,11 @@ function Invoke-FF {
         )
         Foreach($arg in $arguments)
         {
+            Write-Verbose "processing argument $($arg|ConvertTo-Json)"
             if($arg -is [hashtable])
             {
                 $argstring += $arg.keys|%{
-                    "-$($_) $($arg.$_)"   
+                    "-$($_):$($arg.$_)"   
                 }
             }
             elseif($arg -is [string]) {

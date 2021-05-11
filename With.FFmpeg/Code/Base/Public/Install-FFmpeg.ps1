@@ -1,3 +1,23 @@
+<#
+.SYNOPSIS
+Installs FFMPEG to your machine
+
+.DESCRIPTION
+Grabs the latest zip from a github release, downloads it, unpacks it to the correct path and sets enviornment variable in accorance to the selected scope
+
+.PARAMETER Scope
+**For Windows:**  
+* `Process` saves ffmpeg in `$env:TEMP\FFmpeg` and sets process environment variable  
+* `User` Saves ffmpeg in `$env:LOCALAPPDATA\FFmpeg` and sets user environment variable  
+* `Machine` saves ffmpeg in `$env:ProgramData\FFmpeg` and sets machine environment variable
+
+.EXAMPLE
+#Installs ffmpeg in user context
+Install-FFmpeg
+
+.NOTES
+Every install cleans out the directory before continuing. makre sure you don't use ffmpeg if you have it installed and run it again.
+#>
 function Install-FFmpeg
 {
     [CmdletBinding()]
@@ -25,6 +45,7 @@ function Install-FFmpeg
     
     process
     {
+        #If OS is not added as an option 
         if ($env:OS -notin $OsOptions.Keys)
         {
             throw "Have not created options for '$env:os'"

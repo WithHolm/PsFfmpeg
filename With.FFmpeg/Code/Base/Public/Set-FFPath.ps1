@@ -1,3 +1,22 @@
+<#
+.SYNOPSIS
+Sets environment variable path to ffmpeg
+
+.DESCRIPTION
+sets enviornment variable in accorance to the selected scope
+
+.PARAMETER Path
+Parameter description
+
+.PARAMETER Scope
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Set-FFPath {
     [CmdletBinding()]
     param (
